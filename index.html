@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standalone App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <h1>My Standalone Application</h1>
+    <input type="number" id="maxValue" placeholder="Enter max value" />
+    <button id="generateBtn">Generate Random Number</button>
+    <h2 id="result"></h2>
+
+    <script>
+        // Random number generation logic
+        function generateRandomNumber(maxValue) {
+            return Math.floor(Math.random() * maxValue) + 1;
+        }
+
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            const maxValue = document.getElementById('maxValue').value;
+            if (maxValue > 0) {
+                const randomNumber = generateRandomNumber(maxValue);
+                document.getElementById('result').innerText = `Generated Value: ${randomNumber}`;
+            } else {
+                document.getElementById('result').innerText = "Please enter a valid positive integer.";
+            }
+        });
+
+        // Register the service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js').then(reg => {
+                    console.log('Service Worker registered', reg);
+                }).catch(err => {
+                    console.error('Service Worker registration failed', err);
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>
